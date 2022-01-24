@@ -46,8 +46,19 @@ public class MyMain {
     // countBigDigits(99999) => 5
     // countBigDigits(521931) => 2
     public static int countBigDigits(int x) {
-        // YOUR CODE HERE
-        return -1;
+        return countBigDigitsTR(x,0);
+    }
+
+    public static int countBigDigitsTR(int x, int count) {
+        if (x==0){
+            return count;
+        }
+        if (x % 10 < 5){
+            return countBigDigitsTR(x/10,count);
+        }
+        else{
+            return countBigDigitsTR(x/10, count +1);
+        }
     }
 
     // Write a method that uses recursion to calculate whether
@@ -65,9 +76,18 @@ public class MyMain {
     // moreOddThanEven(521931) => true because 5 odd and 1 even
     public static boolean moreOddThanEven(int x) {
         // YOUR CODE HERE
-        return false;
+        return moreOddThanEvenTR(x,0,0);
     }
 
+    public static boolean moreOddThanEvenTR(int x, int even, int odd) {
+        if (x == 0) {
+            return odd > even;
+        } else if ((x % 10) % 2 == 0) {
+            return moreOddThanEvenTR(x / 10, even + 1, odd);
+        } else {
+            return moreOddThanEvenTR(x / 10, even, odd + 1);
+        }
+    }
     // This might be helpful to get started:
 //    public static boolean moreOddThanEvenTR(...) {
 
@@ -81,7 +101,12 @@ public class MyMain {
     // isPalindrome("madam") => true
     // isPalindrome("racecars") => false
     public static boolean isPalindrome(String str) {
-        // YOUR CODE HERE
+        if (str.length() < 2){
+            return true;
+        }
+        if (str.charAt(0) == (str.charAt(str.length() - 1))){
+            return isPalindrome(str.substring(1, str.length() -1 ));
+        }
         return false;
     }
 
@@ -98,7 +123,12 @@ public class MyMain {
     // countBigDigits(99999) => 45
     // countBigDigits(521931) => 21
     public static int addDigits(int x) {
-        // YOUR CODE HERE
+        if (x <= 9){
+            return x;
+        }
+        if (x >= 10){
+            return (x%10) + addDigits(x/10);
+        }
         return -1;
     }
 
@@ -112,8 +142,20 @@ public class MyMain {
     // parenTrim("x(hello)") => "(hello)"
     // parenTrim("(xy)1") => "(xy)"
     public static String parenTrim(String str) {
-        // YOUR CODE HERE
-        return "";
+        boolean firstP = str.charAt(0) == ('(');
+        boolean lastP = str.charAt(str.length() - 1) == (')');
+        if (firstP && lastP){
+            return str;
+        }
+        if (lastP){
+           return parenTrim(str.substring(1));
+        }
+        if (firstP){
+            return parenTrim(str.substring(0, str.length() -1));
+        }
+        else{
+            return parenTrim(str.substring(1, str.length() -1));
+        }
     }
 
     // This method returns the orignal string reversed;
@@ -122,8 +164,17 @@ public class MyMain {
     // reverse("desserts") => stressed
     // reverse("racecar") => racecar
     public static String reverse(String str) {
-        // YOUR CODE HERE
-        return "";
+        return reverseTR(str, "");
+    }
+
+    public static String reverseTR(String str, String str2) {
+        if (str.length() < 1){
+            return str2;
+        }
+        else{
+            str2 += str.charAt(str.length() - 1);
+            return reverseTR(str.substring(0,str.length()-1),str2);
+        }
     }
 
 
